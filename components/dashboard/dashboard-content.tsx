@@ -16,6 +16,19 @@ import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 
 export function DashboardContent() {
+   
+  const handleDownloadPDF = async () => {
+  const response = await fetch("/api/generate-pdf")
+  const blob = await response.blob()
+  const url = window.URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = "report.pdf"
+  a.click()
+}
+
+
+
   const [timeRange, setTimeRange] = useState("today")
   const [viewType, setViewType] = useState("individual")
   const [date, setDate] = useState<Date>(new Date())
@@ -73,6 +86,9 @@ export function DashboardContent() {
               />
             </PopoverContent>
           </Popover>
+          <button onClick={handleDownloadPDF} className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700 cursor-pointer">
+        Export PDF
+      </button>
         </div>
       </div>
 
